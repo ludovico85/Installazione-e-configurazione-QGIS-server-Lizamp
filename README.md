@@ -40,7 +40,38 @@ sudo apt install python-qgis
 
 L'eseguibile di QGIS server è il file ```qgis_mapserv.fcgi```. Il file dovrebbe essere presente nel percorso /usr/lib/cgi-bin/qgis_mapserv.fcgi.
 
-QGIS serve necessita di un X server per essere completamente funzionante (ad esempio la funazione getprint).
+*** NOTA BENE ***
+Può capitare di ricevere un errore
+```
+dpkg: error processing package qgis-providers (--configure):
+installed qgis-providers package post-installation script subprocess returned
+error exit status 134
+dpkg: dependency problems prevent configuration of python3-qgis:
+python3-qgis depends on qgis-providers (= 1:3.16.3+32focal); however:
+Package qgis-providers is not configured yet
+```
+
+Questo può succedere perché si sta tentando di installare una versione non compatibile con la distribuzione attuale di ubuntu.
+https://askubuntu.com/questions/1309161/dpkg-error-processing-package-qgis-providers-configure
+
+In questo caso:
+1. Effettura la pulizia dei pacchetti
+```
+sudo apt remove *qgis*
+sudo apt autoremove
+sudo apt upgrade
+```
+
+2. Disabilitare i repository ```sudo nano /etc/apt/sources.list```
+3. Utilizzare ubuntugis:
+```
+sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable
+sudo apt-get update
+sudo apt install qgis-server --no-install-recommends --no-install-suggests
+sudo apt install python-qgis
+```
+
+QGIS server necessita di un X server per essere completamente funzionante (ad esempio la funazione getprint).
 
 ```
 sudo apt-get install xvfb
