@@ -57,6 +57,7 @@ sudo nano /etc/systemd/system/xvfb.service
 Incollare il seguente contenuto:
 
 ```
+[Unit]
 Description=X Virtual Frame Buffer Service
 After=network.target
 
@@ -73,3 +74,5 @@ Abilitare e verificare lo stato del servizio:
 sudo systemctl enable --now xvfb.service
 sudo systemctl status xvfb.service
 ```
+
+
