@@ -34,7 +34,7 @@ sudo apt update
 Installare qgis-server e alcuni plugin:
 
 ```
-sudo apt install qgis-server
+apt install qgis-server --no-install-recommends --no-install-suggests
 sudo apt install python-qgis
 ```
 
