@@ -38,8 +38,6 @@ apt install qgis-server --no-install-recommends --no-install-suggests
 sudo apt install python-qgis
 ```
 
-L'eseguibile di QGIS server è il file ```qgis_mapserv.fcgi```. Il file dovrebbe essere presente nel percorso /usr/lib/cgi-bin/qgis_mapserv.fcgi.
-
 *** NOTA BENE ***
 Può capitare di ricevere un errore
 ```
