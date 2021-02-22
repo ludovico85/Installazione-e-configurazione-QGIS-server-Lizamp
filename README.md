@@ -1,9 +1,9 @@
 # Installazione-e-configurazione-Lizamp
 Il repository contiene le istruzioni per l'installazione di QGIS server e Lizmap su server Ubuntu.
 
-La documentazione ufficiale di Lizmap può essere consultata al link https://docs.lizmap.com/current/it/index.html
+La documentazione ufficiale di Lizmap può essere consultata al [link](https://docs.lizmap.com/current/it/index.html)
 
-Bisogna aver configurato il server e installato apache2 e postgresql (si può consultare il repo [a link](https://github.com/ludovico85/Installazione-e-configurazione-di-postgresql-e-postgis-su-server-ubuntu-20.04/blob/master/README.md))
+Bisogna aver configurato il server e installato apache2 e postgresql (si può consultare [il repo](https://github.com/ludovico85/Installazione-e-configurazione-di-postgresql-e-postgis-su-server-ubuntu-20.04/blob/master/README.md))
 
 ## Installazione di QGIS server
 https://qgis.org/en/site/forusers/alldownloads.html#linux
