@@ -1,12 +1,14 @@
 # Installazione-e-configurazione-Lizamp
-Il repository contiene le istruzioni per l'installazione di Lizmap su server Ubuntu
+Il repository contiene le istruzioni per l'installazione di QGIS server e Lizmap su server Ubuntu.
 
 La documentazione ufficiale di Lizmap può essere consultata al link https://docs.lizmap.com/current/it/index.html
+
+Bisogna aver configurato il server e installato apache2 e postgresql (si può consultare il repo [a link](https://github.com/ludovico85/Installazione-e-configurazione-di-postgresql-e-postgis-su-server-ubuntu-20.04/blob/master/README.md))
 
 ## Installazione di QGIS server
 https://qgis.org/en/site/forusers/alldownloads.html#linux
 
-Lizmap utilizza QGIS server per la distribuzione dei dati sottoforma di servizi OGC. Prerequisito fondamentale è l'installazione di QGIS server. 
+Lizmap utilizza QGIS server per la distribuzione dei dati sottoforma di servizi OGC. Prerequisito fondamentale è l'installazione di QGIS server.
 
 Per installare QGIS server prima è necessario installare alcuni tool:
 
@@ -172,5 +174,3 @@ Abilitare e verificare lo stato del servizio:
 sudo systemctl enable --now xvfb.service
 sudo systemctl status xvfb.service
 ```
-
-
