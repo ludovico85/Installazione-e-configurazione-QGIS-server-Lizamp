@@ -136,6 +136,7 @@ http://myhost/cgi-bin/qgis_mapserv.fcgi?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCap
 
 La risposta dovrebbe essere simile all'immagine qui sotto.
 
+<details>
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <WMS_Capabilities xmlns:qgs="http://www.qgis.org/wms" version="1.3.0" xsi:schemaLocation="http://www.opengis.net/wms http://schemas.opengis.net/wms/1.3.0/capabilities_1_3_0.xsd http://www.opengis.net/sld http://schemas.opengis.net/sld/1.1.0/sld_capabilities.xsd http://www.qgis.org/wms http://143.198.3.27/cgi-bin/qgis_mapserv.fcgi?SERVICE=WMS&amp;REQUEST=GetSchemaExtension" xmlns:sld="http://www.opengis.net/sld" xmlns="http://www.opengis.net/wms" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -247,7 +248,7 @@ La risposta dovrebbe essere simile all'immagine qui sotto.
  </Capability>
 </WMS_Capabilities>
 ```
-
+</details>
 QGIS server necessita di un X server per essere completamente funzionante (ad esempio la funazione getprint).
 
 ```
