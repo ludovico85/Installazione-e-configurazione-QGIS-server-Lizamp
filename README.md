@@ -36,7 +36,7 @@ sudo apt update
 Installare qgis-server e alcuni plugin:
 
 ```
-apt install qgis-server --no-install-recommends --no-install-suggests
+apt install qgis-server libapache2-mod-fcgid --no-install-recommends --no-install-suggests
 sudo apt install python-qgis
 ```
 
@@ -69,8 +69,8 @@ sudo apt upgrade
 ```
 sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable
 sudo apt-get update
-sudo apt install qgis-server --no-install-recommends --no-install-suggests
-sudo apt install python-qgis
+sudo apt install qgis-server libapache2-mod-fcgid --no-install-recommends --no-install-suggests
+sudo apt install python3-qgis
 ```
 
 Abilitare il modulo di apache fcgid e abilitare lo script serve-cgi-bin
@@ -90,6 +90,7 @@ Creare il servizio di configurazione di QGIS server:
 
 ```
 sudo touch /etc/apache2/sites-available/qgis-server.conf
+sudo nano /etc/apache2/sites-available/qgis-server.conf
 ```
 
 Incollare il seguente contenuto:
@@ -111,15 +112,16 @@ Aggiungere il script a2dissite per disabilitare il virtual host di default:
 sudo a2dissite 000-default.conf
 ```
 
-Ora abilitare il file di configurazione del virtual host pgAdmin:
+Ora abilitare il file di configurazione del virtual host di qgis-server:
 
 ```
-sudo a2ensite pgadmin4.conf
+sudo a2ensite qgis-server.conf
 ```
 
 Verificare la correttezza della sintassi:
 
-```apachectl configtest
+```
+apachectl configtest
 ```
 
 Attivare il virtual host:
