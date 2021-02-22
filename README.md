@@ -176,3 +176,5 @@ Abilitare e verificare lo stato del servizio:
 sudo systemctl enable --now xvfb.service
 sudo systemctl status xvfb.service
 ```
+
+#Installazione di Lizmap
