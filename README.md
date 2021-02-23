@@ -1,9 +1,9 @@
-# Installazione-e-configurazione-Lizamp
+# Installazione-e-configurazione-Lizamp e QGIS server
 Il repository contiene le istruzioni per l'installazione di QGIS server e Lizmap su server Ubuntu.
 
 La documentazione ufficiale di Lizmap può essere consultata al [link](https://docs.lizmap.com/current/it/index.html)
 
-Bisogna aver configurato il server e installato apache2 e postgresql (si può consultare [il repo](https://github.com/ludovico85/Installazione-e-configurazione-di-postgresql-e-postgis-su-server-ubuntu-20.04/blob/master/README.md))
+Bisogna aver configurato il server e installato apache2 (postgresql opzionale) (si può consultare [il repo](https://github.com/ludovico85/Installazione-e-configurazione-di-postgresql-e-postgis-su-server-ubuntu-20.04/blob/master/README.md))
 
 ## Installazione di QGIS server
 https://qgis.org/en/site/forusers/alldownloads.html#linux
@@ -40,7 +40,7 @@ apt install qgis-server libapache2-mod-fcgid --no-install-recommends --no-instal
 sudo apt install python-qgis
 ```
 
-*** NOTA BENE ***
+** NOTA BENE **
 Può capitare di ricevere un errore
 ```
 dpkg: error processing package qgis-providers (--configure):
@@ -140,9 +140,91 @@ La risposta dovrebbe essere simile all'immagine qui sotto.
 
 ![Alt text](/img/xml.png)
 
+#Installazione di Lizmap
+
+Le seguenti istruzioni si riferiscono alla versione 3.4 di Lizmap.
+
+Aggiornare i pacchetti di ubuntu:
+
+```
+sudo apt update
+```
+
+Lizmap è basato sul framework PHP Jelix. Necessita l'installazione dei seguenti pacchetti (assicurasi che la versione di php sia quella corrente):
 
 
-QGIS server necessita di un X server per essere completamente funzionante (ad esempio la funazione getprint).
+```
+sudo apt install xauth htop curl libapache2-mod-fcgid libapache2-mod-php7.4 php7.4-cgi php7.4-gd php7.4-sqlite3 php7.4-curl php7.4-xmlrpc python-simplejson software-properties-common
+```
+
+##Installazione del WebClient
+
+Spostarsi nella cartella /var/www
+
+```
+cd /var/www
+```
+Creare la variabile per la versione da installare:
+
+```
+VERSION=3.4.0
+```
+
+Scaricare i file necessari:
+
+```
+wget https://github.com/3liz/lizmap-web-client/releases/download/$VERSION/lizmap-web-client-$VERSION.zip
+
+sudo unzip $VERSION.zip
+
+sudo ln -s /var/www/lizmap-web-client-$VERSION/lizmap/www/ /var/www/html/lizmap
+
+sudo rm $VERSION.zip
+```
+
+Copiare e rinominare i seguenti file:
+
+```
+cd lizmap/var/config
+sudo cp lizmapConfig.ini.php.dist lizmapConfig.ini.php
+sudo cp localconfig.ini.php.dist localconfig.ini.php
+sudo cp profiles.ini.php.dist profiles.ini.php
+cd ../../..
+```
+
+Per abilitare il repository DEMO aggiungere al file localconfig.ini.php le stringhe (dopo put here....):
+```
+[modules]
+lizmap.installparam=demo
+```
+
+```
+sudo nano localconfig.ini.php
+```
+
+Lanciare l'installazione:
+
+```
+php lizmap/install/installer.php
+```
+
+Lanciare lo scritp set_rights:
+
+```
+cd /var/www/lizmap-web-client-$VERSION/
+lizmap/install/set_rights.sh www-data www-data
+```
+
+Riavviare apache2
+
+```
+sudo systemctl restart apache2
+```
+
+Per verificare il funzionamento digitare nel browser http://my_host/lizmap
+
+# Installazione di un X server
+Può capitare di ricevere un errore nella chaiamata della stampa (GetPrint). Per risolvere è necessario installare un X server e configurarlo correttamente.
 
 ```
 sudo apt-get install xvfb
@@ -176,5 +258,3 @@ Abilitare e verificare lo stato del servizio:
 sudo systemctl enable --now xvfb.service
 sudo systemctl status xvfb.service
 ```
-
-#Installazione di Lizmap
