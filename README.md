@@ -40,7 +40,7 @@ apt install qgis-server libapache2-mod-fcgid --no-install-recommends --no-instal
 sudo apt install python-qgis
 ```
 
-** NOTA BENE **
+**NOTA BENE**
 Può capitare di ricevere un errore
 ```
 dpkg: error processing package qgis-providers (--configure):
@@ -140,7 +140,7 @@ La risposta dovrebbe essere simile all'immagine qui sotto.
 
 ![Alt text](/img/xml.png)
 
-#Installazione di Lizmap
+# Installazione di Lizmap
 
 Le seguenti istruzioni si riferiscono alla versione 3.4 di Lizmap.
 
@@ -154,10 +154,10 @@ Lizmap è basato sul framework PHP Jelix. Necessita l'installazione dei seguenti
 
 
 ```
-sudo apt install xauth htop curl libapache2-mod-fcgid libapache2-mod-php7.4 php7.4-cgi php7.4-gd php7.4-sqlite3 php7.4-curl php7.4-xmlrpc python-simplejson software-properties-common
+sudo apt install xauth htop curl libapache2-mod-fcgid libapache2-mod-php7.4 php7.4-cgi php7.4-gd php7.4-sqlite3 php7.4-curl php7.4-xmlrpc python-simplejson software-properties-common php7.4-xml
 ```
 
-##Installazione del WebClient
+## Installazione del WebClient
 
 Spostarsi nella cartella /var/www
 
