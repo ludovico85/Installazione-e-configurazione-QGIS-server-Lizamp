@@ -173,19 +173,19 @@ VERSION=3.4.0
 Scaricare i file necessari:
 
 ```
-wget https://github.com/3liz/lizmap-web-client/releases/download/$VERSION/lizmap-web-client-$VERSION.zip
+sudo wget https://github.com/3liz/lizmap-web-client/releases/download/$VERSION/lizmap-web-client-$VERSION.zip
 
-sudo unzip $VERSION.zip
+sudo unzip lizmap-web-client-$VERSION.zip
 
 sudo ln -s /var/www/lizmap-web-client-$VERSION/lizmap/www/ /var/www/html/lizmap
 
-sudo rm $VERSION.zip
+sudo rm lizmap-web-client-$VERSION.zip
 ```
 
 Copiare e rinominare i seguenti file:
 
 ```
-cd lizmap/var/config
+cd /var/www/lizmap-web-client-$VERSION/lizmap/var/config
 sudo cp lizmapConfig.ini.php.dist lizmapConfig.ini.php
 sudo cp localconfig.ini.php.dist localconfig.ini.php
 sudo cp profiles.ini.php.dist profiles.ini.php
@@ -205,14 +205,14 @@ sudo nano localconfig.ini.php
 Lanciare l'installazione:
 
 ```
-php lizmap/install/installer.php
+sudo php lizmap/install/installer.php
 ```
 
 Lanciare lo scritp set_rights:
 
 ```
 cd /var/www/lizmap-web-client-$VERSION/
-lizmap/install/set_rights.sh www-data www-data
+sudo lizmap/install/set_rights.sh www-data www-data
 ```
 
 Riavviare apache2
