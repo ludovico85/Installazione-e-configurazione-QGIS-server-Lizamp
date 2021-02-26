@@ -225,6 +225,11 @@ Per verificare il funzionamento digitare nel browser http://my_host/lizmap
 
 ## Lizmap Extra
 
+### Redirect
+```
+sudo ln -s /var/www/lizmap-web-client-release_3_0/lizmap/www/ /var/www/html/nome
+```
+
 ### Geolocalizzazione
 
 Se si vuole utilizzare la funzione di geolocalizzazione è necesario che lo scambio dei dati avvenga attraverso protoclli certificati e sicuri quali l'HTTPS. Bisogna quindi configurare apache2 affinchè possa utilizzare il protocollo. A questo [link](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-apache-in-ubuntu-16-04) viene riportata una possibile soluzione.
