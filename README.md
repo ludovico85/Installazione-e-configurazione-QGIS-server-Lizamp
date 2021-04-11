@@ -261,7 +261,7 @@ sqlite3
 sudo nano /etc/php/7.4/apache2/php.ini
 ```
 
-3) Sostituire la configurazione di defaul:
+3) Sostituire la configurazione di default:
 ```
 [sqlite3]
 ;sqlite3.extension_dir =
@@ -289,6 +289,48 @@ cp /usr/lib/x86_64-linux-gnu/libspatialite.so.7.1.1 /var/www/sqlite3_ext
 ```
 sudo systemctl restart apache2
 ```
+
+## Configurare invio mail
+Per configurare l'invio delle email è necessacio modificare il file localconfig.ini.php. Con gmail è necessario abilitare le app non sicure https://accounts.google.com/DisplayUnlockCaptcha
+
+**Non utilizzare caratteri speciali nella password.**
+
+```
+sudo nano /var/www/lizmap-web-client-3.4.0/lizmap/var/config/localconfig.ini.php
+```
+
+```
+[mailer]
+webmasterEmail="XXX@gmail.com"
+webmasterName="XXX"
+
+; how to send mail : "mail" (mail()), "sendmail" (call sendmail), or "smtp" (send directly to a smtp)
+mailerType=smtp
+; Sets the hostname to use in Message-Id and Received headers
+; and as default HELO string. If empty, the value returned
+; by SERVER_NAME is used or 'localhost.localdomain'.
+hostname=
+sendmailPath="/usr/sbin/sendmail"
+
+; if mailer = smtp , fill the following parameters
+
+; SMTP hosts.  All hosts must be separated by a semicolon : "smtp1.example.com:25;smtp2.example.com"
+smtpHost="smtp.gmail.com"
+; default SMTP server port
+smtpPort=587
+; secured connection or not. possible values: "", "ssl", "tls"
+smtpSecure="tls"
+; SMTP HELO of the message (Default is hostname)
+smtpHelo=
+; SMTP authentication
+smtpAuth=on
+smtpUsername="XXX@gmail.com"
+smtpPassword="mypassword"
+; SMTP server timeout in seconds
+smtpTimeout=30
+
+```
+
 
 ## Installazione di un X server
 Può capitare di ricevere un errore nella chaiamata della stampa (GetPrint). Per risolvere è necessario installare un X server e configurarlo correttamente.
