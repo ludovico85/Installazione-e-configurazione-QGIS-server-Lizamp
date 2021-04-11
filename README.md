@@ -244,9 +244,9 @@ sudo apt-get install php7.4-pgsql
 
 ### Abilitazione Spatialite
 
-Per abilitare Spatialite è necessario
+Per abilitare Spatialite è necessario:
 
-Verificare che php sqlite sia correttamente installato
+1) Verificare che php sqlite sia correttamente installato
 ```
 php7.4 -m|grep sqlite
 ```
@@ -256,12 +256,12 @@ pdo_sqlite
 sqlite3
 ```
 
-Modificare il file di configurazione php.ini.
+2) Modificare il file di configurazione php.ini.
 ```
 sudo nano /etc/php/7.4/apache2/php.ini
 ```
 
-Sostituire la configurazione di defaul:
+3) Sostituire la configurazione di defaul:
 ```
 [sqlite3]
 ;sqlite3.extension_dir =
@@ -273,15 +273,21 @@ con la segunete configurazione:
 sqlite3.extension_dir = /var/www/sqlite3_ext
 ```
 
-Creare una directory in /var/www/ sqlite3_ext dir with the following content
+4) Creare una directory in /var/www/ sqlite3_ext dir with the following content
 ```
 sudo mkdir /var/www/sqlite3_ext
 ```
 
-copiare e incollare la libreria libspatialite.so.7.1.1 oppure mod_spatialite.so.7.1.0
+5) Copiare e incollare la libreria libspatialite.so.7.1.1 oppure mod_spatialite.so.7.1.0
 
 ```
 cp /usr/lib/x86_64-linux-gnu/libspatialite.so.7.1.1 /var/www/sqlite3_ext
+```
+
+6) Riavviare apache
+
+```
+sudo systemctl restart apache2
 ```
 
 ## Installazione di un X server
