@@ -242,7 +242,7 @@ Se si vuole utilizzare Postgreslq/PostGIS per la gestione dei dati, basta instal
 sudo apt-get install php7.4-pgsql
 ```
 
-### Abilitazione Spatialite
+### Abilitazione di Spatialite
 
 Per abilitare Spatialite è necessario:
 
@@ -273,7 +273,7 @@ con la segunete configurazione:
 sqlite3.extension_dir = /var/www/sqlite3_ext
 ```
 
-4) Creare una directory in /var/www/ sqlite3_ext dir with the following content
+4) Creare una directory in /var/www/ sqlite3_ext
 ```
 sudo mkdir /var/www/sqlite3_ext
 ```
