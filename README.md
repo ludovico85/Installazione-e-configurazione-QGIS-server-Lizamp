@@ -246,6 +246,8 @@ sudo apt-get install php7.4-pgsql
 
 Per abilitare Spatialite è necessario:
 
+
+
 1) Verificare che php sqlite sia correttamente installato
 ```
 php7.4 -m|grep sqlite
@@ -256,35 +258,41 @@ pdo_sqlite
 sqlite3
 ```
 
-2) Modificare il file di configurazione php.ini.
+2) Installare il modulo spatialite 
+```
+sudo apt update
+sudo apt install libsqlite3-mod-spatialite
+```
+
+3) Modificare il file di configurazione php.ini.
 ```
 sudo nano /etc/php/7.4/apache2/php.ini
 ```
 
-3) Sostituire la configurazione di default:
+4) Sostituire la configurazione di default:
 ```
 [sqlite3]
 ;sqlite3.extension_dir =
 ```
 
-con la segunete configurazione:
+con la seguente configurazione:
 ```
 [sqlite3]
 sqlite3.extension_dir = /var/www/sqlite3_ext
 ```
 
-4) Creare una directory in /var/www/ sqlite3_ext
+5) Creare una directory in /var/www/ sqlite3_ext
 ```
 sudo mkdir /var/www/sqlite3_ext
 ```
 
-5) Copiare e incollare la libreria libspatialite.so.7.1.1 oppure mod_spatialite.so.7.1.0
+6) Copiare e incollare la libreria libspatialite.so.7.1.1 oppure mod_spatialite.so.7.1.0
 
 ```
 cp /usr/lib/x86_64-linux-gnu/libspatialite.so.7.1.1 /var/www/sqlite3_ext
 ```
 
-6) Riavviare apache
+7) Riavviare apache
 
 ```
 sudo systemctl restart apache2
@@ -330,7 +338,6 @@ smtpPassword="mypassword"
 smtpTimeout=30
 
 ```
-
 
 ## Installazione di un X server
 Può capitare di ricevere un errore nella chaiamata della stampa (GetPrint). Per risolvere è necessario installare un X server e configurarlo correttamente.
