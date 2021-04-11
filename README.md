@@ -236,10 +236,52 @@ Se si vuole utilizzare la funzione di geolocalizzazione è necesario che lo scam
 
 ### Gestione dei dati tramite PostGIS
 
-Se si bule utilizzare Postgreslq/PostGIS per la gestione dei dati, basta installareil seguente modulo (dopo aver installato postgresql e l'estensione postgis):
+Se si vuole utilizzare Postgreslq/PostGIS per la gestione dei dati, basta installare il seguente modulo (dopo aver installato postgresql e l'estensione postgis):
 
 ```
 sudo apt-get install php7.4-pgsql
+```
+
+### Abilitazione Spatialite
+
+Per abilitare Spatialite è necessario
+
+Verificare che php sqlite sia correttamente installato
+```
+php7.4 -m|grep sqlite
+```
+```
+pdo_sqlite
+
+sqlite3
+```
+
+Modificare il file di configurazione php.ini.
+```
+sudo nano /etc/php/7.4/apache2/php.ini
+```
+
+Sostituire la configurazione di defaul:
+```
+[sqlite3]
+;sqlite3.extension_dir =
+```
+
+con la segunete configurazione:
+```
+[sqlite3]
+sqlite3.extension_dir = /var/www/sqlite3_ext
+```
+
+Creare una directory in /var/www/ sqlite3_ext dir with the following content
+```
+sudo mkdir /var/www/sqlite3_ext
+```
+
+copiare e incollare la libreria libspatialite.so.7.1.1 oppure mod_spatialite.so.7.1.0
+
+```
+cp /usr/lib/x86_64-linux-gnu/libspatialite.so.7.1.1 /var/www/sqlite3_ext
 ```
 
 ## Installazione di un X server
