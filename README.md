@@ -223,6 +223,12 @@ sudo systemctl restart apache2
 
 Per verificare il funzionamento digitare nel browser http://my_host/lizmap
 
+Il firewall potrebbe bloccare le connessioni. Ablitare le connessioni sulla porta 80
+
+```
+sudo ufw allow 80/tcp
+```
+
 ## Lizmap Extra
 
 ### Redirect
