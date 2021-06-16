@@ -215,6 +215,13 @@ cd /var/www/lizmap-web-client-$VERSION/
 sudo lizmap/install/set_rights.sh www-data www-data
 ```
 
+In caso non funzionasse, settare i permessi alla cartella di progetto di Lizmap
+
+```
+cd /var/www/lizmap-web-client-$VERSION/lizmap
+sudo chown -R www-data:www-data qgis_projects
+```
+
 Riavviare apache2
 
 ```
