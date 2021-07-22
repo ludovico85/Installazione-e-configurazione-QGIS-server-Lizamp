@@ -255,6 +255,16 @@ Se si vuole utilizzare Postgreslq/PostGIS per la gestione dei dati, basta instal
 sudo apt-get install php7.4-pgsql
 ```
 
+### creare una nuova cartella per i repository
+```
+cd /var/www/lizmap-web-client-3.4.0/lizmap
+sudo mkdir qgis_projects
+```
+Cambiare i permessi per l'utente
+```
+sudo chown user:group /var/www/lizmap-web-client-3.4.0/lizmap/qgis_projects
+```
+
 ### Abilitazione di Spatialite
 
 Per abilitare Spatialite è necessario:
