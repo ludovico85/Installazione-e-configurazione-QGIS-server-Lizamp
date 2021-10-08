@@ -267,7 +267,13 @@ sudo chown user:group /var/www/lizmap-web-client-3.4.0/lizmap/qgis_projects
 ### Abilitare l'esportazione di altri formati di dati
 https://github.com/3liz/qgis-wfsOutputExtension
 
-Scaricare, decomprimere e copiare l'intera cartella `wfsOutputExtension` nella cartella d'installazione dei plugin di qgis-server `/usr/share/qgis/python/plugins`
+1) Scaricare, decomprimere e copiare l'intera cartella `wfsOutputExtension` nella cartella d'installazione dei plugin di qgis-server `/usr/share/qgis/python/plugins`
+
+2) Riavviare apache
+
+```
+sudo systemctl restart apache2
+```
 
 ### Abilitazione di Spatialite
 
