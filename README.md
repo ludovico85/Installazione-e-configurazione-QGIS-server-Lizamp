@@ -371,6 +371,20 @@ smtpTimeout=30
 
 ```
 
+## Temi personalizzati
+Scaricare una copia del tema di default digitando nella barra di ricerca del browser l'indirizzo http://my_host/lizmap/lizmap/index.php/view/media/getDefaultTheme . Decomprimere la cartella e copiare l'intero contenuto all'interno di uno dei repository (il tema modificato si applica all'intero repository), creando una cartella media/themes/
+
+La struttura finale è la seguente:
+  
+    -- media
+        |-- themes
+            |-- default
+            |-- map_project_file_name1
+            |-- map_project_file_name2
+            |-- etc
+
+Default applica il tema a tutti i progetti presenti nel repository.
+
 ## Installazione di un X server
 Può capitare di ricevere un errore nella chaiamata della stampa (GetPrint). Per risolvere è necessario installare un X server e configurarlo correttamente.
 
