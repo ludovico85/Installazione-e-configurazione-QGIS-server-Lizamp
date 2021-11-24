@@ -317,14 +317,23 @@ sqlite3.extension_dir = /var/www/sqlite3_ext
 ```
 sudo mkdir /var/www/sqlite3_ext
 ```
-
-6) Copiare e incollare la libreria libspatialite.so.7.1.1 oppure mod_spatialite.so.7.1.0
+6) Verificare le versioni delle librerie libspatialite.so.7.1.x e mod_spatialite.so.7.1.x
 
 ```
-cp /usr/lib/x86_64-linux-gnu/libspatialite.so.7.1.1 /var/www/sqlite3_ext
+sudo ls /usr/lib/x86_64-linux-gnu/
 ```
 
-7) Riavviare apache
+7) Copiare e incollare la libreria libspatialite.so.7.1.x e mod_spatialite.so.7.1.x
+
+```
+sudo cp /usr/lib/x86_64-linux-gnu/libspatialite.so.7.1.1 /var/www/sqlite3_ext
+sudo cp /usr/lib/x86_64-linux-gnu/mod_spatialite.so.7.1.0 /var/www/sqlite3_ext
+sudo cp /usr/lib/x86_64-linux-gnu/mod_spatialite.so.7 /var/www/sqlite3_ext
+sudo cp /usr/lib/x86_64-linux-gnu/mod_spatialite.so /var/www/sqlite3_ext
+sudo cp /usr/lib/x86_64-linux-gnu/libspatialite.so.7 /var/www/sqlite3_ext
+```
+
+8) Riavviare apache
 
 ```
 sudo systemctl restart apache2
