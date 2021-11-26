@@ -98,6 +98,8 @@ Incollare il seguente contenuto:
 ```
 <VirtualHost *:80>
     ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+    ErrorLog ${APACHE_LOG_DIR}/qgis-server-error.log
+    CustomLog ${APACHE_LOG_DIR}/qgis-server-access.log combined
     <Directory "/usr/lib/cgi-bin/">
     Options ExecCGI FollowSymLinks
     Require all granted
@@ -140,6 +142,11 @@ La risposta dovrebbe essere simile all'immagine qui sotto.
 
 ![Alt text](/img/xml.png)
 
+Per accedere a log di qgis-server
+```
+sudo nano /var/log/apache2/qgis-server-error.log
+sudo nano /var/log/apache2/qgis-server-access.log
+```
 ## Installazione di Lizmap
 
 Le seguenti istruzioni si riferiscono alla versione 3.4 di Lizmap.
@@ -290,7 +297,7 @@ pdo_sqlite
 sqlite3
 ```
 
-2) Installare il modulo spatialite 
+2) Installare il modulo spatialite
 ```
 sudo apt update
 sudo apt install libsqlite3-mod-spatialite
@@ -384,7 +391,7 @@ smtpTimeout=30
 Scaricare una copia del tema di default digitando nella barra di ricerca del browser l'indirizzo http://my_host/lizmap/lizmap/index.php/view/media/getDefaultTheme . Decomprimere la cartella e copiare l'intero contenuto all'interno di uno dei repository (il tema modificato si applica all'intero repository), creando una cartella media/themes/
 
 La struttura finale è la seguente:
-  
+
     -- media
         |-- themes
             |-- default
