@@ -1,6 +1,6 @@
 # Installazione-e-configurazione-Lizamp e QGIS Server
 
-![GitHub last commit](https://img.shields.io/github/last-commit/envixlab/paesaggioGIS?color=green&style=plastic)
+![GitHub last commit](https://img.shields.io/github/last-commit/ludovico85/Installazione-e-configurazione-QGIS-server-Lizamp?color=green&style=plastic)
 
 Il repository contiene le istruzioni per l'installazione di QGIS server e Lizmap su server Ubuntu.
 
