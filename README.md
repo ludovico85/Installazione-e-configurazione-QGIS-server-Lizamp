@@ -36,6 +36,7 @@ Installare qgis-server e alcuni plugin:
 sudo apt install qgis-server libapache2-mod-fcgid --no-install-recommends --no-install-suggests
 sudo apt install python-qgis
 ```
+---
 **NOTA BENE**
 Può capitare di ricevere un errore
 ```
@@ -66,6 +67,7 @@ sudo apt-get update
 sudo apt install qgis-server libapache2-mod-fcgid --no-install-recommends --no-install-suggests
 sudo apt install python3-qgis
 ```
+---
 Abilitare il modulo di apache fcgid e abilitare lo script serve-cgi-bin
 ```
 sudo a2enmod fcgid
@@ -208,7 +210,7 @@ cd /var/www
 Creare la variabile per la versione da installare:
 
 ```
-VERSION=3.4.0
+VERSION=3.4.7
 ```
 
 Scaricare i file necessari:
@@ -298,7 +300,7 @@ sudo apt-get install php7.4-pgsql
 
 ### creare una nuova cartella per i repository
 ```
-cd /var/www/lizmap-web-client-3.4.0/lizmap
+cd /var/www/lizmap-web-client-$VERSION/lizmap
 sudo mkdir qgis_projects
 ```
 Cambiare i permessi per l'utente
@@ -309,17 +311,21 @@ sudo chown user:group /var/www/lizmap-web-client-3.4.0/lizmap/qgis_projects
 https://github.com/3liz/qgis-wfsOutputExtension
 
 1) Scaricare, decomprimere e copiare l'intera cartella `wfsOutputExtension` nella cartella d'installazione dei plugin di qgis-server `/usr/share/qgis/python/plugins`
+```
+cd /usr/share/qgis/python/plugins
+sudo wget https://github.com/3liz/qgis-wfsOutputExtension/releases/download/1.6.2/wfsOutputExtension.1.6.2.zip
+sudo unzip wfsOutputExtension.1.6.2.zip
+sudo rm wfsOutputExtension.1.6.2.zip
+```
+2) settare i diritti (Da verificare)
 
 2) Riavviare apache
-
 ```
 sudo systemctl restart apache2
 ```
-
 ### Abilitazione di Spatialite
 
 Per abilitare Spatialite è necessario:
-
 
 1) Verificare che php sqlite sia correttamente installato
 ```
@@ -330,42 +336,34 @@ pdo_sqlite
 
 sqlite3
 ```
-
 2) Installare il modulo spatialite
 ```
 sudo apt update
 sudo apt install libsqlite3-mod-spatialite
 ```
-
 3) Modificare il file di configurazione php.ini.
 ```
 sudo nano /etc/php/7.4/apache2/php.ini
 ```
-
 4) Sostituire la configurazione di default:
 ```
 [sqlite3]
 ;sqlite3.extension_dir =
 ```
-
 con la seguente configurazione:
 ```
 [sqlite3]
 sqlite3.extension_dir = /var/www/sqlite3_ext
 ```
-
 5) Creare una directory in /var/www/ sqlite3_ext
 ```
 sudo mkdir /var/www/sqlite3_ext
 ```
 6) Verificare le versioni delle librerie libspatialite.so.7.1.x e mod_spatialite.so.7.1.x
-
 ```
 sudo ls /usr/lib/x86_64-linux-gnu/
 ```
-
 7) Copiare e incollare la libreria libspatialite.so.7.1.x e mod_spatialite.so.7.1.x
-
 ```
 sudo cp /usr/lib/x86_64-linux-gnu/libspatialite.so.7.1.1 /var/www/sqlite3_ext
 sudo cp /usr/lib/x86_64-linux-gnu/mod_spatialite.so.7.1.0 /var/www/sqlite3_ext
@@ -373,22 +371,17 @@ sudo cp /usr/lib/x86_64-linux-gnu/mod_spatialite.so.7 /var/www/sqlite3_ext
 sudo cp /usr/lib/x86_64-linux-gnu/mod_spatialite.so /var/www/sqlite3_ext
 sudo cp /usr/lib/x86_64-linux-gnu/libspatialite.so.7 /var/www/sqlite3_ext
 ```
-
 8) Riavviare apache
-
 ```
 sudo systemctl restart apache2
 ```
-
 ## Configurare invio mail
 Per configurare l'invio delle email è necessacio modificare il file localconfig.ini.php. Con gmail è necessario abilitare le app non sicure https://accounts.google.com/DisplayUnlockCaptcha
 
 **Non utilizzare caratteri speciali nella password.**
-
 ```
-sudo nano /var/www/lizmap-web-client-3.4.0/lizmap/var/config/localconfig.ini.php
+sudo nano /var/www/lizmap-web-client-$VERSION/lizmap/var/config/localconfig.ini.php
 ```
-
 ```
 [mailer]
 webmasterEmail="XXX@gmail.com"
@@ -420,7 +413,6 @@ smtpPassword="mypassword"
 smtpTimeout=30
 
 ```
-
 ## Temi personalizzati
 Scaricare una copia del tema di default digitando nella barra di ricerca del browser l'indirizzo http://my_host/lizmap/lizmap/index.php/view/media/getDefaultTheme . Decomprimere la cartella e copiare l'intero contenuto all'interno di uno dei repository (il tema modificato si applica all'intero repository), creando una cartella media/themes/
 
@@ -433,7 +425,7 @@ La struttura finale è la seguente:
             |-- map_project_file_name2
             |-- etc
 
-Default applica il tema a tutti i progetti presenti nel repository.
+Di default applica il tema a tutti i progetti presenti nel repository.
 
 ## Installazione di un X server
 Può capitare di ricevere un errore nella chaiamata della stampa (GetPrint). Per risolvere è necessario installare un X server e configurarlo correttamente.
@@ -441,17 +433,13 @@ Può capitare di ricevere un errore nella chaiamata della stampa (GetPrint). Per
 ```
 sudo apt-get install xvfb
 ```
-
 Creare e modificare il file xvfb.service:
 
 ```
 sudo touch /etc/systemd/system/xvfb.service
-
 sudo nano /etc/systemd/system/xvfb.service
 ```
-
 Incollare il seguente contenuto:
-
 ```
 [Unit]
 Description=X Virtual Frame Buffer Service
@@ -463,9 +451,7 @@ ExecStart=/usr/bin/Xvfb :99 -screen 0 1024x768x24 -ac +extension GLX +render -no
 [Install]
 WantedBy=multi-user.target
 ```
-
 Abilitare e verificare lo stato del servizio:
-
 ```
 sudo systemctl enable --now xvfb.service
 sudo systemctl status xvfb.service
