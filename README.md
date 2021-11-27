@@ -1,4 +1,7 @@
 # Installazione-e-configurazione-Lizamp e QGIS Server
+
+![GitHub last commit](https://img.shields.io/github/last-commit/envixlab/paesaggioGIS?color=green&style=plastic)
+
 Il repository contiene le istruzioni per l'installazione di QGIS server e Lizmap su server Ubuntu.
 
 La documentazione ufficiale di Lizmap può essere consultata al [link](https://docs.lizmap.com/current/it/index.html)
@@ -285,24 +288,17 @@ sudo ufw allow 80/tcp
 ```
 
 ## Lizmap Extra
-
 ### Redirect
 ```
-sudo ln -s /var/www/lizmap-web-client-release_3_0/lizmap/www/ /var/www/html/nome
+sudo ln -s /var/www/lizmap-web-client-$VERSION/lizmap/www/ /var/www/html/nome
 ```
-
 ### Geolocalizzazione
-
 Se si vuole utilizzare la funzione di geolocalizzazione è necesario che lo scambio dei dati avvenga attraverso protoclli certificati e sicuri quali l'HTTPS. Bisogna quindi configurare apache2 affinchè possa utilizzare il protocollo. A questo [link](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-apache-in-ubuntu-16-04) viene riportata una possibile soluzione.
-
 ### Gestione dei dati tramite PostGIS
-
 Se si vuole utilizzare Postgreslq/PostGIS per la gestione dei dati, basta installare il seguente modulo (dopo aver installato postgresql e l'estensione postgis):
-
 ```
 sudo apt-get install php7.4-pgsql
 ```
-
 ### creare una nuova cartella per i repository
 ```
 cd /var/www/lizmap-web-client-$VERSION/lizmap
@@ -314,7 +310,6 @@ sudo chown user:group /var/www/lizmap-web-client-3.4.0/lizmap/qgis_projects
 ```
 ### Abilitare l'esportazione di altri formati di dati
 https://github.com/3liz/qgis-wfsOutputExtension
-
 1) Scaricare, decomprimere e copiare l'intera cartella `wfsOutputExtension` nella cartella d'installazione dei plugin di qgis-server `/usr/share/qgis/python/plugins`
 ```
 cd /usr/share/qgis/python/plugins
@@ -329,16 +324,13 @@ sudo rm wfsOutputExtension.1.6.2.zip
 sudo systemctl restart apache2
 ```
 ### Abilitazione di Spatialite
-
 Per abilitare Spatialite è necessario:
-
 1) Verificare che php sqlite sia correttamente installato
 ```
 php7.4 -m|grep sqlite
 ```
 ```
 pdo_sqlite
-
 sqlite3
 ```
 2) Installare il modulo spatialite
@@ -382,7 +374,6 @@ sudo systemctl restart apache2
 ```
 ## Configurare invio mail
 Per configurare l'invio delle email è necessacio modificare il file localconfig.ini.php. Con gmail è necessario abilitare le app non sicure https://accounts.google.com/DisplayUnlockCaptcha
-
 **Non utilizzare caratteri speciali nella password.**
 ```
 sudo nano /var/www/lizmap-web-client-$VERSION/lizmap/var/config/localconfig.ini.php
@@ -420,7 +411,6 @@ smtpTimeout=30
 ```
 ## Temi personalizzati
 Scaricare una copia del tema di default digitando nella barra di ricerca del browser l'indirizzo http://my_host/lizmap/lizmap/index.php/view/media/getDefaultTheme . Decomprimere la cartella e copiare l'intero contenuto all'interno di uno dei repository (il tema modificato si applica all'intero repository), creando una cartella media/themes/
-
 La struttura finale è la seguente:
 
     -- media
@@ -431,15 +421,12 @@ La struttura finale è la seguente:
             |-- etc
 
 Di default applica il tema a tutti i progetti presenti nel repository.
-
 ## Installazione di un X server
 Può capitare di ricevere un errore nella chaiamata della stampa (GetPrint). Per risolvere è necessario installare un X server e configurarlo correttamente.
-
 ```
 sudo apt-get install xvfb
 ```
 Creare e modificare il file xvfb.service:
-
 ```
 sudo touch /etc/systemd/system/xvfb.service
 sudo nano /etc/systemd/system/xvfb.service
