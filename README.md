@@ -36,7 +36,9 @@ Installare qgis-server e alcuni plugin:
 sudo apt install qgis-server libapache2-mod-fcgid --no-install-recommends --no-install-suggests
 sudo apt install python-qgis
 ```
+
 ---
+
 **NOTA BENE**
 Può capitare di ricevere un errore
 ```
@@ -67,7 +69,9 @@ sudo apt-get update
 sudo apt install qgis-server libapache2-mod-fcgid --no-install-recommends --no-install-suggests
 sudo apt install python3-qgis
 ```
+
 ---
+
 Abilitare il modulo di apache fcgid e abilitare lo script serve-cgi-bin
 ```
 sudo a2enmod fcgid
@@ -177,6 +181,7 @@ Testare la corretta installazione di QGIS server digitando nel browser:
 http://myhost/cgi-bin/qgis_mapserv.fcgi?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities
 ```
 La risposta dovrebbe essere simile all'immagine qui sotto.
+
 ![Alt text](/img/xml.png)
 Per accedere a log di qgis-server
 ```
