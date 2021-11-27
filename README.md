@@ -1,4 +1,4 @@
-# Installazione-e-configurazione-Lizamp e QGIS server
+# Installazione-e-configurazione-Lizamp e QGIS Server
 Il repository contiene le istruzioni per l'installazione di QGIS server e Lizmap su server Ubuntu.
 
 La documentazione ufficiale di Lizmap può essere consultata al [link](https://docs.lizmap.com/current/it/index.html)
@@ -6,40 +6,36 @@ La documentazione ufficiale di Lizmap può essere consultata al [link](https://d
 Bisogna aver configurato il server e installato apache2 (postgresql opzionale) (si può consultare [il repo](https://github.com/ludovico85/Installazione-e-configurazione-di-postgresql-e-postgis-su-server-ubuntu-20.04/blob/master/README.md))
 
 ## Installazione di QGIS server
+
 https://qgis.org/en/site/forusers/alldownloads.html#linux
 
-Lizmap utilizza QGIS server per la distribuzione dei dati sottoforma di servizi OGC. Prerequisito fondamentale è l'installazione di QGIS server.
+Lizmap utilizza QGIS Server per la distribuzione dei dati sottoforma di servizi OGC. Prerequisito fondamentale è l'installazione di QGIS Server.
 
-Per installare QGIS server prima è necessario installare alcuni tool:
+Per installare QGIS Server prima è necessario installare alcuni tool:
 
 ```
 sudo apt install gnupg software-properties-common
 ```
-
 Successivamente è necessario installare la chiave di installazione QGIS dal repository:
 
 ```
 wget -qO - https://qgis.org/downloads/qgis-2020.gpg.key | sudo gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/qgis-archive.gpg --import
 ```
-
 ```
 sudo chmod a+r /etc/apt/trusted.gpg.d/qgis-archive.gpg
 ```
-
 Adesso è necessatrio aggiungere il repository e aggiornare i pacchetti di ubuntu:
 
 ```
 sudo add-apt-repository "deb https://qgis.org/ubuntu `lsb_release -c -s` main"
 sudo apt update
 ```
-
 Installare qgis-server e alcuni plugin:
 
 ```
 sudo apt install qgis-server libapache2-mod-fcgid --no-install-recommends --no-install-suggests
 sudo apt install python-qgis
 ```
-
 **NOTA BENE**
 Può capitare di ricevere un errore
 ```
@@ -62,86 +58,124 @@ sudo apt remove *qgis*
 sudo apt autoremove
 sudo apt upgrade
 ```
-
 2. Disabilitare i repository ```sudo nano /etc/apt/sources.list```
 3. Utilizzare ubuntugis:
-
 ```
 sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable
 sudo apt-get update
 sudo apt install qgis-server libapache2-mod-fcgid --no-install-recommends --no-install-suggests
 sudo apt install python3-qgis
 ```
-
 Abilitare il modulo di apache fcgid e abilitare lo script serve-cgi-bin
-
 ```
 sudo a2enmod fcgid
 sudo a2enconf serve-cgi-bin
 ```
-
 Riavviare apache2:
-
 ```
 sudo service apache2 restart
 ```
-
+Per testare l'installazione:
+```
+/usr/lib/cgi-bin/qgis_mapserv.fcgi
+```
 Creare il servizio di configurazione di QGIS server:
-
 ```
 sudo touch /etc/apache2/sites-available/qgis-server.conf
 sudo nano /etc/apache2/sites-available/qgis-server.conf
 ```
-
 Incollare il seguente contenuto:
-
 ```
 <VirtualHost *:80>
-    ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
-    ErrorLog ${APACHE_LOG_DIR}/qgis-server-error.log
-    CustomLog ${APACHE_LOG_DIR}/qgis-server-access.log combined
-    <Directory "/usr/lib/cgi-bin/">
-    Options ExecCGI FollowSymLinks
+  ServerAdmin webmaster@localhost
+  ServerName qgis-server
+
+  DocumentRoot /var/www/html
+
+  # Apache logs (different than QGIS Server log)
+  ErrorLog ${APACHE_LOG_DIR}/qgis-server-error.log
+  CustomLog ${APACHE_LOG_DIR}/qgis-server-access.log combined
+
+  # Longer timeout for WPS... default = 40
+  FcgidIOTimeout 120
+
+  FcgidInitialEnv LC_ALL "en_US.UTF-8"
+  FcgidInitialEnv PYTHONIOENCODING UTF-8
+  FcgidInitialEnv LANG "en_US.UTF-8"
+
+  # QGIS log
+  FcgidInitialEnv QGIS_SERVER_LOG_STDERR 1
+  FcgidInitialEnv QGIS_SERVER_LOG_LEVEL 0
+
+  # default QGIS project
+  SetEnv QGIS_PROJECT_FILE /home/qgis/projects/world.qgs
+
+  # QGIS_AUTH_DB_DIR_PATH must lead to a directory writeable by the Server's FCGI process user
+  FcgidInitialEnv QGIS_AUTH_DB_DIR_PATH "/home/qgis/qgisserverdb/"
+  FcgidInitialEnv QGIS_AUTH_PASSWORD_FILE "/home/qgis/qgisserverdb/qgis-auth.db"
+
+  # Set pg access via pg_service file
+  SetEnv PGSERVICEFILE /home/qgis/.pg_service.conf
+  FcgidInitialEnv PGPASSFILE "/home/qgis/.pgpass"
+
+  # if qgis-server is installed from packages in debian based distros this is usually /usr/lib/cgi-bin/
+  # run "locate qgis_mapserv.fcgi" if you don't know where qgis_mapserv.fcgi is
+  ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+  <Directory "/usr/lib/cgi-bin/">
+    AllowOverride None
+    Options +ExecCGI -MultiViews -SymLinksIfOwnerMatch
+    Order allow,deny
+    Allow from all
     Require all granted
-    AddHandler fcgid-script .fcgi
-    </Directory>
+  </Directory>
+
+ <IfModule mod_fcgid.c>
+ FcgidMaxRequestLen 26214400
+ FcgidConnectTimeout 60
+ </IfModule>
+
 </VirtualHost>
 ```
-
-Aggiungere il script a2dissite per disabilitare il virtual host di default:
-
+Creare alcune cartelle che ospiteranno i logs di QGIS Server, il database di autenticazione e i progetti:
+```
+sudo mkdir -p /var/log/qgis/
+sudo chown www-data:www-data /var/log/qgis
+sudo mkdir -p /home/qgis/qgisserverdb
+sudo chown www-data:www-data /home/qgis/qgisserverdb
+sudo mkdir -p /home/qgis/projects
+sudo chown www-data:www-data /home/qgis/projects
+```
+Aggiungere lo script a2dissite per disabilitare il virtual host di default:
 ```
 sudo a2dissite 000-default.conf
 ```
-
 Ora abilitare il file di configurazione del virtual host di qgis-server:
-
 ```
 sudo a2ensite qgis-server.conf
 ```
-
 Verificare la correttezza della sintassi:
 
 ```
-apachectl configtest
+sudo apachectl configtest
 ```
-
 Attivare il virtual host:
-
 ```
 sudo systemctl restart apache2
 ```
-
+Scarica il progetto demo:
+```
+cd /home/qgis/projects/
+sudo wget https://github.com/qgis/QGIS-Training-Data/archive/release_3.16.zip
+sudo unzip release_3.16.zip
+sudo mv QGIS-Training-Data-release_3.16/exercise_data/qgis-server-tutorial-data/world.qgs .
+sudo mv QGIS-Training-Data-release_3.16/exercise_data/qgis-server-tutorial-data/naturalearth.sqlite .
+```
 Testare la corretta installazione di QGIS server digitando nel browser:
-
 ```
 http://myhost/cgi-bin/qgis_mapserv.fcgi?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities
 ```
-
 La risposta dovrebbe essere simile all'immagine qui sotto.
-
 ![Alt text](/img/xml.png)
-
 Per accedere a log di qgis-server
 ```
 sudo nano /var/log/apache2/qgis-server-error.log
