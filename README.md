@@ -410,7 +410,7 @@ smtpTimeout=30
 
 ```
 ## Temi personalizzati
-Scaricare una copia del tema di default digitando nella barra di ricerca del browser l'indirizzo http://my_host/lizmap/lizmap/index.php/view/media/getDefaultTheme . Decomprimere la cartella e copiare l'intero contenuto all'interno di uno dei repository (il tema modificato si applica all'intero repository), creando una cartella media/themes/
+Scaricare una copia del tema di default digitando nella barra di ricerca del browser l'indirizzo http://my_host/lizmap/index.php/view/media/getDefaultTheme . Decomprimere la cartella e copiare l'intero contenuto all'interno di uno dei repository (il tema modificato si applica all'intero repository), creando una cartella media/themes/
 La struttura finale è la seguente:
 
     -- media
@@ -421,6 +421,22 @@ La struttura finale è la seguente:
             |-- etc
 
 Di default applica il tema a tutti i progetti presenti nel repository.
+
+## Template personalizzati
+Lizmap è basato su [Jelix 1.6](https://docs.jelix.org/en/manual-1.6/templates#redefining-a-template). Il tema di default si trova nella cartella `/var/www/lizmap-web-client-3.4.7/lizmap/var/themes/default`. I template dei vari moduli si trovano nella cartella `/var/www/lizmap-web-client-3.4.7/lizmap/modules`. Per modificare un template bisogna creare una copia del template all'interno della cartella default.
+Esempio se si vuole personalizzare il template main.tpl del modulo view, si crea la cartella view all'interno del tema default e si copia il template main.tpl
+
+```
+sudo mkdir /var/www/lizmap-web-client-3.4.7/lizmap/var/themes/default/view
+
+sudo cp /var/www/lizmap-web-client-3.4.7/lizmap/modules/view/templates/main.tpl /var/www/lizmap-web-client-3.4.7/lizmap/var/themes/default/view
+```
+Adesso è possibile modificare il template di default
+
+```
+sudo nano /var/www/lizmap-web-client-3.4.7/lizmap/var/themes/default/view/main.tpl
+```
+
 ## Installazione di un X server
 Può capitare di ricevere un errore nella chaiamata della stampa (GetPrint). Per risolvere è necessario installare un X server e configurarlo correttamente.
 ```
