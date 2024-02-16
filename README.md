@@ -464,3 +464,61 @@ Abilitare e verificare lo stato del servizio:
 sudo systemctl enable --now xvfb.service
 sudo systemctl status xvfb.service
 ```
+
+## Configurazione del file pg_service.conf
+Struttura del file pg_service.conf
+
+```
+[nomeservizio]
+host=XX.XXX.XXX.XX
+port=XX
+dbname=XXXXXXXX
+user=XXXXXXXXXX
+password=**********
+```
+### Windows
+- Creare il file pg_service.conf in una cartella
+- impostare la variabile dell'utente PGSERVICEFILE con il percorso al file pg_service.conf
+
+### UBUNTU Server
+- Creare il file pg_service.conf nella cartella ```sudo nano /etc/postgresql-common/pg_service.conf```
+- Testare il funzionamento
+```
+psql postgresql://?service=nome_servizio
+```
+Per verificare la connessione in atto
+```
+nomedatabase=> \q
+```
+```
+=> You are now connected to database "***********" as user "**************".
+```
+Ora bisogna configurare QGIS-SERVER e Apache2 affinchè vedano il file di servizio
+
+```
+sudo nano /etc/apache2/sites-available/qgis-server.conf
+```
+Modificare il file di configurazione in questo modo
+
+```
+# Set pg access via pg_service file
+SetEnv PGSERVICEFILE /etc/postgresql-common/pg_service.conf
+SetEnv PGSERVICE=nomeservizio
+```
+Riavviare Apache2
+```
+sudo systemctl restart apache2
+```
+Verificare che il file pg_service.conf abbia i permessi di lettura. In caso contratrio
+```
+sudo chmod 644 /etc/postgresql-common/pg_service.conf
+```
+In questo modo il proprietario può leggere e scrivere (rw-), il gruppo può leggere solo (r--), gli altri possono leggere solo (r--). Per mostrare i permessi
+```
+ls -l /etc/postgresql-common
+```
+Il che darà:
+```
+-rw-r--r-- 1 root root  108 Feb 16 09:46 pg_service.conf
+```
+
