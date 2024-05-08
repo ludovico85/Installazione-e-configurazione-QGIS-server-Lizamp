@@ -521,4 +521,51 @@ Il che darà:
 ```
 -rw-r--r-- 1 root root  108 Feb 16 09:46 pg_service.conf
 ```
+## Upgrade dalla versione 3.5 alla versione 3.7
+Creare una copia di sicurezza dell'installazione precedente
+```
+cd /var/www/
+sudo cp -r lizmap-web-client lizmap-web-client.old
+```
 
+Lanciare lo script backup.sh
+```
+sudo lizmap/install/backup.sh /tmp
+```
+Scaricare la nuova versione
+```
+cd /var/www
+VERSION=3.7.6
+sudo wget https://github.com/3liz/lizmap-web-client/releases/download/$VERSION/lizmap-web-client-$VERSION.zip
+sudo unzip lizmap-web-client-$VERSION.zip
+```
+Rinominare la vecchia cartella di lizamp
+```
+cd lizmap-web-client
+sudo mv lizmap lizmap.bak
+```
+Copiare la nuova cartella lizmap nella vecchia direcotry e lanciare lo script restore
+```
+sudo cp -r ../lizmap-web-client-$VERSION/lizmap lizmap
+sudo lizmap/install/restore.sh /tmp
+```
+
+Lanciare l'installazione della nuova versione
+```
+sudo lizmap/install/clean_vartmp.sh
+sudo php lizmap/install/configurator.php
+sudo php lizmap/install/installer.php
+```
+Plulizia della cache e di tutti i file temporanei
+```
+sudo lizmap/install/clean_vartmp.sh
+```
+Lanciare lo script per settare i permessi utente
+```
+sudo lizmap/install/set_rights.sh www-data www-data
+```
+Importare i vecchi progetti
+```
+cd /var/www/
+sudo cp -r lizmap-web-client.old/lizmap-web-client/lizmap/qgis_projects lizmap-web-client/lizmap/qgis_projects
+```
