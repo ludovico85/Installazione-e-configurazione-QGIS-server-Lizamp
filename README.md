@@ -569,3 +569,22 @@ Importare i vecchi progetti
 cd /var/www/
 sudo cp -r lizmap-web-client.old/lizmap-web-client/lizmap/qgis_projects lizmap-web-client/lizmap/qgis_projects
 ```
+### Installare qgis-server plugin (obbligatorio)
+Spostarsi nella cartella dei plugins e scaricare il file
+```
+cd /usr/share/qgis/python/plugins
+sudo wget https://github.com/3liz/qgis-lizmap-server-plugin/archive/refs/tags/2.9.0.zip
+sudo unzip 2.9.0.zip
+sudo cp -r qgis-lizmap-server-plugin-2.9.0/lizmap_server lizmap_server
+sudo rm -r qgis-lizmap-server-plugin-2.9.0
+```
+Modificare le variabili di ambiente
+```
+sudo nano /etc/apache2/sites-available/qgis-server.conf
+```
+aggiungere
+```
+# ENABLE ENVIRONMENTALE VARIABLE FOR LIZMAP SERVER
+FcgidInitialEnv QGIS_SERVER_LIZMAP_REVEAL_SETTINGS True
+FcgidInitialEnv QGIS_PLUGINPATH "/usr/share/qgis/python/plugins"
+```
